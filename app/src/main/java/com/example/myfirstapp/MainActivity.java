@@ -3,8 +3,6 @@ package com.example.myfirstapp;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -23,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 0);
     }
-
+/*
     public void sendMessage(View view) {
         Intent intent = new Intent(this, DisplayMessageActivity.class);
         EditText editText = findViewById(R.id.editText);
@@ -36,4 +34,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
+ */
 }

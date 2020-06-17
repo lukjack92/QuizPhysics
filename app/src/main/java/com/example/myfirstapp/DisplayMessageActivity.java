@@ -1,11 +1,13 @@
 package com.example.myfirstapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,10 +21,17 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
+
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("MESSAGE_LOGIN");
+
+        TextView textView = findViewById(R.id.textView);
+        textView.setText(message);
+
         Log.d("LOGIN", "TEST!!!");
         final Spinner spinner = findViewById(R.id.spinner);
         // Spinner click listener
-        spinner.setOnItemSelectedListener(this);
+        //spinner.setOnItemSelectedListener(this);
 
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
@@ -35,15 +44,13 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Log.d("LOGIN", categories.toString());
-        // attaching data adapter to spinner
+        // Attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
     }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
         String item = parent.getItemAtPosition(position).toString();
-        Log.d("LOGIN", item);
         // Showing selected spinner item
         Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
