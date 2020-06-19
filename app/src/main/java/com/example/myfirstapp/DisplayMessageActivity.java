@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,6 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
 
         categories = new ArrayList<String>();
 
-        Log.d("LOGIN", "TEST!!!");
         spinner = findViewById(R.id.spinner);
 
         RequestParams params = new RequestParams();
@@ -57,23 +57,6 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
 
         body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=utf-8"), params.toString());
         postRequest(MainActivity.postURIStage, body);
-
-
-        // Spinner Drop down elements
-        //List<String> categories = new ArrayList<String>();
-        //categories.add("Automobile");
-        //categories.add("Business Services");
-        //categories.add("");
-
-        // Creating adapter for spinner
-        //ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
-
-        // Drop down layout style - list view
-        //dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Attaching data adapter to spinner
-        //spinner.setAdapter(dataAdapter);
-        // Spinner click listener
-        //spinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -133,10 +116,8 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
                                         JSONObject c = categoriesArray.getJSONObject(i);
                                         String name = c.getString("name");
                                         categories.add(name);
-
                                         // Creating adapter for spinner
                                         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(DisplayMessageActivity.this,android.R.layout.simple_spinner_item, categories);
-
                                         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                         // Attaching data adapter to spinner
                                         spinner.setAdapter(dataAdapter);
@@ -150,6 +131,11 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
                         } catch (Exception e) {
                             e.printStackTrace();
                             responseTextLogin.setText("No categories as active state in DB!");
+                            TextView text = findViewById(R.id.textView3);
+                            text.setVisibility(View.GONE);
+                            spinner.setVisibility(View.GONE);
+                            Button start = findViewById(R.id.button2);
+                            start.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -159,13 +145,13 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
 
 
     public void btnSTART(View view) {
-        TextView editText = findViewById(R.id.textView);
-        Spinner select = findViewById(R.id.spinner);
-        editText.setText(select.getSelectedItem().toString());
+        //TextView editText = findViewById(R.id.textView);
+        //Spinner select = findViewById(R.id.spinner);
+        //editText.setText(select.getSelectedItem().toString());
     }
 
     public void btnBACK(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
-
+        startActivity(intent);
     }
 }

@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordView.getText().toString().trim();
 
         if(username.length() == 0 || password.length() == 0) {
-            Toast.makeText(getApplicationContext(),"Entry Username and Password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Type Email and Password", Toast.LENGTH_SHORT).show();
             return;
         }
 /*
@@ -118,9 +118,9 @@ public class LoginActivity extends AppCompatActivity {
                             } else if (jsonResponse.getString("message").trim().equals("User not found or Invalid login details.")) {
                                 responseTextLogin.setText("Login Failed. Invalid username or password.");
                                 Log.d("LOGIN", "Unsuccessful Login");
-                            } else {
+                            } //else {
                                 //responseTextLogin.setText(loginResponseString);
-                            }
+                            //}
                         } catch (Exception e) {
                             e.printStackTrace();
                             responseTextLogin.setText("The page is unreachable. Please try soon.");
