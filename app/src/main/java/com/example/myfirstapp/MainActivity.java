@@ -9,8 +9,8 @@ import androidx.core.app.ActivityCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-    public static final String postURI = "https://mgr.ljack.com.pl/api/api.php";
+    public static final String postURILive = "https://mgr.ljack.com.pl/api/api.php";
+    public static final String postURIStage = "https://stage.mgr.ljack.com.pl/api/api.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_ui);
     }
 
-    public void changeActivity(String message) {
+    public void changeActivityToSelectCategory(String message) {
         Intent intent = new Intent(this, DisplayMessageActivity.class);
         intent.putExtra("MESSAGE_LOGIN", message);
         startActivity(intent);
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         params.add("password",password);
 
         RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=utf-8"), params.toString());
-        postRequest(MainActivity.postURI, body);
+        postRequest(MainActivity.postURIStage, body);
     }
 
     public void postRequest(String postUrl, RequestBody postBody) {
@@ -111,12 +111,10 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("LOGIN", "Response from the server : " + loginResponseString);
                             if (jsonResponse.getString("message").trim().equals("Successfully logged in.")) {
                                 Log.d("LOGIN", "Successful Login");
-                                changeActivity("You has been success logged in");
-                                //setContentView(R.layout.activity_display_message);
                                 //TextView responseTextLoginToScreen = findViewById(R.id.textView);
                                 //responseTextLoginToScreen.setText(jsonResponse.getString("message").trim());
-                                //changeActivity(jsonResponse.getString("message").trim());
-                                //finish();//finishing activity and return to the calling activity.
+                                changeActivityToSelectCategory("You have been success logged in.");
+                                finish();//finishing activity and return to the calling activity.
                             } else if (jsonResponse.getString("message").trim().equals("User not found or Invalid login details.")) {
                                 responseTextLogin.setText("Login Failed. Invalid username or password.");
                                 Log.d("LOGIN", "Unsuccessful Login");

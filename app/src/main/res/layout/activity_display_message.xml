@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".DisplayMessageActivity">
 
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="319dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="12dp"
+        android:onClick="btnSTART"
+        android:text="BACK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="213dp"
@@ -21,6 +32,7 @@
         android:layout_width="216dp"
         android:layout_height="34dp"
         android:layout_marginTop="16dp"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +55,7 @@
         android:layout_width="319dp"
         android:layout_height="46dp"
         android:layout_marginTop="28dp"
+        android:onClick="btnSTART"
         android:text="START QUIZ"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
