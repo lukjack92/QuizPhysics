@@ -26,6 +26,8 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static Bundle username = new Bundle();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void changeActivityToSelectCategory(String message) {
+        //Intent intentQuiz = new Intent(this, QuizActivity.class);
+        //intentQuiz.putExtra("USER", username);
+
         Intent intent = new Intent(this, DisplayMessageActivity.class);
         intent.putExtra("MESSAGE_LOGIN", message);
         startActivity(intent);
@@ -49,9 +54,8 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Type Email and Password", Toast.LENGTH_SHORT).show();
             return;
         }
-/*
+        /*
         JSONObject loginForm = new JSONObject();
-
         try {
             loginForm.put("type", "login");
             loginForm.put("email", username);
@@ -59,8 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-   */
+        */
         RequestParams params = new RequestParams();
         params.add("type","login");
         params.add("email",username);
@@ -113,14 +116,18 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("LOGIN", "Successful Login");
                                 //TextView responseTextLoginToScreen = findViewById(R.id.textView);
                                 //responseTextLoginToScreen.setText(jsonResponse.getString("message").trim());
+                                JSONObject user = jsonResponse.getJSONObject("user");
+                                String email = user.getString("email");
+                                Log.d("USER", email);
+                                LoginActivity.username.putString("email",email);
                                 changeActivityToSelectCategory("You have been success logged in.");
                                 finish();//finishing activity and return to the calling activity.
                             } else if (jsonResponse.getString("message").trim().equals("User not found or Invalid login details.")) {
                                 responseTextLogin.setText("Login Failed. Invalid username or password.");
                                 Log.d("LOGIN", "Unsuccessful Login");
-                            } //else {
-                                //responseTextLogin.setText(loginResponseString);
-                            //}
+                            } else {
+                                responseTextLogin.setText(loginResponseString);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                             responseTextLogin.setText("The page is unreachable. Please try soon.");

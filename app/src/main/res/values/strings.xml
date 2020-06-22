@@ -15,4 +15,7 @@
     <string name="selectSpinner">"Select a category:"</string>
     <string name="startQuiz">"START QUIZ"</string>
     <string name="back">"BACK"</string>
+    <string name="next">"NEXT QUESTION"</string>
+    <string name="prev">"PREV QUESTION"</string>
+    <string name="submit">"SUBMIT"</string>
 </resources>

@@ -6,4 +6,164 @@
     android:layout_height="match_parent"
     tools:context=".QuizActivity">
 
+    <Button
+        android:id="@+id/buttonQuit"
+        android:layout_width="364dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="60dp"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+        android:textAllCaps="false"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/accent_material_light"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="348dp"
+        android:layout_height="177dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="296dp"
+        android:scrollbars="vertical"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:autoSizeTextType="none"
+        app:layout_constraintBottom_toTopOf="@+id/buttonQuit"
+        app:layout_constraintEnd_toEndOf="@id/number"
+        app:layout_constraintStart_toStartOf="@id/answerGroup" />
+
+    <Button
+        android:id="@+id/buttonNext"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/next"
+        app:layout_constraintBottom_toTopOf="@+id/buttonQuit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonPrev" />
+
+    <Button
+        android:id="@+id/buttonPrev"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="@string/prev"
+        app:layout_constraintBottom_toTopOf="@+id/buttonQuit"
+        app:layout_constraintEnd_toStartOf="@+id/buttonNext"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/question"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintVertical_bias="0.493" />
+
+    <RadioGroup
+        android:id="@+id/answerGroup"
+        android:layout_width="369dp"
+        android:layout_height="125dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/question"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/buttonQuit"
+        app:layout_constraintVertical_bias="0.45"
+        tools:ignore="MissingConstraints">
+
+
+        <RadioButton
+            android:id="@+id/radioButtonA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="ansa"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.515"
+            tools:layout_editor_absoluteX="20dp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="ansb"
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="392dp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="ansc"
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="423dp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="ansd"
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="455dp" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/submit"
+        android:textColor="#070505"
+        android:textColorHighlight="@color/design_default_color_error"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/buttonQuit"
+        app:layout_constraintEnd_toEndOf="@id/buttonQuit"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

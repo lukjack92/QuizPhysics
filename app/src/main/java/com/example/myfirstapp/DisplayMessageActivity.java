@@ -34,6 +34,7 @@ import okhttp3.Response;
 public class DisplayMessageActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private List<String> categories;
+    private JSONArray responseServer;
     private Spinner spinner;
     RequestBody body;
 
@@ -49,6 +50,7 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
         textView.setText(message);
 
         categories = new ArrayList<String>();
+        responseServer = new JSONArray();
 
         spinner = findViewById(R.id.spinner);
 
@@ -143,11 +145,77 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
         });
     }
 
+    public void postRequestCategory(String postUrl, RequestBody postBody) {
+        //final List<String> questions = new ArrayList<String>();
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(postUrl)
+                .post(postBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // Cancel the post on failure.
+                call.cancel();
+                Log.d("FAIL", e.getMessage());
+                // In order to access the TextView inside the UI thread, the code is executed inside runOnUiThread()
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView responseTextLogin = findViewById(R.id.responseTextLogin);
+                        responseTextLogin.setText("Server is unreachable. Please try soon.");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                // In order to access the TextView inside the UI thread, the code is executed inside runOnUiThread()
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView responseTextLogin = findViewById(R.id.textView);
+
+                        try {
+                            String ResponseString = response.body().string();
+                            Log.d("TESTQ:", ResponseString);
+
+                            JSONObject jsonResponse = new JSONObject(ResponseString);
+                            Log.d("MessageQ", "Message form the server : " + jsonResponse);
+
+                            //responseServer = jsonResponse.getJSONArray("");
+                            Intent intent = new Intent(DisplayMessageActivity.this,QuizActivity.class);
+                            intent.putExtra("QUESTIONS", jsonResponse.toString());
+                            startActivity(intent);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            responseTextLogin.setText("No categories as active state in DB!");
+                            TextView text = findViewById(R.id.textView3);
+                            text.setVisibility(View.GONE);
+                            spinner.setVisibility(View.GONE);
+                            Button start = findViewById(R.id.button2);
+                            start.setVisibility(View.GONE);
+                        }
+                    }
+                });
+            }
+        });
+    }
 
     public void btnSTART(View view) {
-        //TextView editText = findViewById(R.id.textView);
-        //Spinner select = findViewById(R.id.spinner);
-        //editText.setText(select.getSelectedItem().toString());
+        Spinner select = findViewById(R.id.spinner);
+        String category = select.getSelectedItem().toString();
+
+        RequestParams params = new RequestParams();
+        params.add("type","questionsFromCategory");
+        params.add("category", category);
+
+        body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=utf-8"), params.toString());
+        postRequestCategory(MainActivity.postURIStage, body);
+
     }
 
     public void btnBACK(View view) {
