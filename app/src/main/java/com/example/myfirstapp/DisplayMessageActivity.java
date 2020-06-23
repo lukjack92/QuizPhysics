@@ -100,7 +100,7 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        TextView responseTextLogin = findViewById(R.id.responseTextLogin);
+                        TextView responseTextLogin = findViewById(R.id.textView);
                         responseTextLogin.setText("Server is unreachable. Please try soon.");
                     }
                 });
@@ -173,7 +173,7 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        TextView responseTextLogin = findViewById(R.id.responseTextLogin);
+                        TextView responseTextLogin = findViewById(R.id.textView);
                         responseTextLogin.setText("Server is unreachable. Please try soon.");
                     }
                 });

@@ -32,8 +32,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finishAffinity();
     }
 
     @Override
@@ -102,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         TextView responseTextLogin = findViewById(R.id.responseTextLogin);
-                        responseTextLogin.setText("Server is unreachable. Please try soon.");
+                        responseTextLogin.setText("Server is unreachable. Please try soon. \n Or check out your network!");
                     }
                 });
             }
