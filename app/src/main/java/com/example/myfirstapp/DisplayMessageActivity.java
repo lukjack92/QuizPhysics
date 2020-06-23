@@ -33,6 +33,7 @@ import okhttp3.Response;
 
 public class DisplayMessageActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    public static Bundle selectedCategory = new Bundle();
     private List<String> categories;
     private JSONArray responseServer;
     private Spinner spinner;
@@ -42,6 +43,9 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
+        TextView usernameSelectCategoryActivity = findViewById(R.id.usernameSelectCategoryActivity);
+
+        usernameSelectCategoryActivity.setText(LoginActivity.username.getString("email"));
 
         Intent intent = getIntent();
         String message = intent.getStringExtra("MESSAGE_LOGIN");
@@ -177,19 +181,26 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
                     @Override
                     public void run() {
                         TextView responseTextLogin = findViewById(R.id.textView);
-
                         try {
                             String ResponseString = response.body().string();
                             Log.d("TESTQ:", ResponseString);
 
                             JSONObject jsonResponse = new JSONObject(ResponseString);
-                            Log.d("MessageQ", "Message form the server : " + jsonResponse);
+                            Log.d("MessageQ", "Message form the server : " + jsonResponse.getJSONArray("message"));
 
-                            //responseServer = jsonResponse.getJSONArray("");
-                            Intent intent = new Intent(DisplayMessageActivity.this,QuizActivity.class);
-                            intent.putExtra("QUESTIONS", jsonResponse.toString());
-                            startActivity(intent);
-
+                            if(jsonResponse.getJSONArray("message").toString().equals("No date or category is inactive!")) {
+                                responseTextLogin.setText("No categories as active state in DB!");
+                                TextView text = findViewById(R.id.textView3);
+                                text.setVisibility(View.GONE);
+                                spinner.setVisibility(View.GONE);
+                                Button start = findViewById(R.id.button2);
+                                start.setVisibility(View.GONE);
+                            } else {
+                                //responseServer = jsonResponse.getJSONArray("");
+                                Intent intent = new Intent(DisplayMessageActivity.this,QuizActivity.class);
+                                intent.putExtra("QUESTIONS", jsonResponse.toString());
+                                startActivity(intent);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                             responseTextLogin.setText("No categories as active state in DB!");
@@ -208,6 +219,7 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
     public void btnSTART(View view) {
         Spinner select = findViewById(R.id.spinner);
         String category = select.getSelectedItem().toString();
+        selectedCategory.putString("SELECTED_CATEGORY", category);
 
         RequestParams params = new RequestParams();
         params.add("type","questionsFromCategory");

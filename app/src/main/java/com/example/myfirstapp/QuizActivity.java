@@ -20,12 +20,16 @@ import org.json.JSONObject;
 
 public class QuizActivity extends AppCompatActivity {
 
+    public static Bundle resultQuiz = new Bundle();
+    public static Bundle numberOfQuiz = new Bundle();
     private Button buttonQuit, buttonNext, buttonPrev, buttonSubmit;
     private TextView username, question, number;
     private JSONArray objQuestions;
-    private int counter, numberQuestions = 0;
+    private int numberQuestions = 0;
+    private int counter = 1;
     private RadioGroup groupAnswer;
     private RadioButton rBA, rBB, rBC, rBD;
+    private String answersStringArray[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +54,7 @@ public class QuizActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String questions = intent.getStringExtra("QUESTIONS");
-
-        Log.d("QuestionFromQuizActivity1: ", questions.toString());
+        Log.d("QuestionFromQuizActivity: ", questions.toString());
 
         // Convert String from URL to JSONObject
         try {
@@ -59,17 +62,18 @@ public class QuizActivity extends AppCompatActivity {
             objQuestions = jsonObject.getJSONArray("message");
             System.out.println("ArrayLength: " + objQuestions.length());
             numberQuestions = objQuestions.length();
-            System.out.println("Array0: " + objQuestions.getJSONObject(counter));
+            answersStringArray = new String[numberQuestions];
+
+            System.out.println("Array0: " + objQuestions.getJSONObject(counter-1));
 
             // Set the first question in the Activity QuizActivity
-            number.setText(Html.fromHtml("<b>"  +counter+ " of " + numberQuestions+ "</b>"));
-            question.setText(objQuestions.getJSONObject(counter).getString("question"));
-            rBA.setText(objQuestions.getJSONObject(counter).getString("ansa"));
-            rBB.setText(objQuestions.getJSONObject(counter).getString("ansb"));
-            rBC.setText(objQuestions.getJSONObject(counter).getString("ansc"));
-            rBD.setText(objQuestions.getJSONObject(counter).getString("ansd"));
+            number.setText(Html.fromHtml("<b>"  + counter +" of " + numberQuestions+ "</b>"));
+            question.setText(objQuestions.getJSONObject(counter-1).getString("question"));
+            rBA.setText(objQuestions.getJSONObject(counter-1).getString("ansa"));
+            rBB.setText(objQuestions.getJSONObject(counter-1).getString("ansb"));
+            rBC.setText(objQuestions.getJSONObject(counter-1).getString("ansc"));
+            rBD.setText(objQuestions.getJSONObject(counter-1).getString("ansd"));
             buttonPrev.setVisibility(View.INVISIBLE);
-            System.out.println("Counter0: " + counter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -79,40 +83,40 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    groupAnswer.clearCheck();
-                    counter++;
-                    System.out.println("Counter2: " + counter);
+                    if(groupAnswer.getCheckedRadioButtonId() == -1) {
+                        Toast.makeText(getApplicationContext(), "Please select one choice", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                    if (counter == numberQuestions-1) {
-                        number.setText(Html.fromHtml("<b>"  +counter+ " of " + numberQuestions+ "</b>"));
-                        question.setText(objQuestions.getJSONObject(counter).getString("question"));
-                        rBA.setText(objQuestions.getJSONObject(counter).getString("ansa"));
-                        rBB.setText(objQuestions.getJSONObject(counter).getString("ansb"));
-                        rBC.setText(objQuestions.getJSONObject(counter).getString("ansc"));
-                        rBD.setText(objQuestions.getJSONObject(counter).getString("ansd"));
+                    if(groupAnswer.getCheckedRadioButtonId() != -1) {
+                        RadioButton answer = findViewById(groupAnswer.getCheckedRadioButtonId());
+                        String ansText = answer.getText().toString();
+                        answersStringArray[counter-1] = ansText;
+                    }
+                    //groupAnswer.clearCheck();
+
+                    counter++;
+                    if (counter == numberQuestions) {
+                        number.setText(Html.fromHtml("<b>"  + counter + " of " + numberQuestions+ "</b>"));
+                        question.setText(objQuestions.getJSONObject(counter-1).getString("question"));
+                        rBA.setText(objQuestions.getJSONObject(counter-1).getString("ansa"));
+                        rBB.setText(objQuestions.getJSONObject(counter-1).getString("ansb"));
+                        rBC.setText(objQuestions.getJSONObject(counter-1).getString("ansc"));
+                        rBD.setText(objQuestions.getJSONObject(counter-1).getString("ansd"));
 
                         buttonSubmit.setVisibility(View.VISIBLE);
                         buttonNext.setVisibility(View.INVISIBLE);
 
-                    } else if(counter < numberQuestions) {
+                    } else if(counter <= numberQuestions) {
                         number.setText(Html.fromHtml("<b>"  +counter+ " of " + numberQuestions+ "</b>"));
-                        question.setText(objQuestions.getJSONObject(counter).getString("question"));
-                        rBA.setText(objQuestions.getJSONObject(counter).getString("ansa"));
-                        rBB.setText(objQuestions.getJSONObject(counter).getString("ansb"));
-                        rBC.setText(objQuestions.getJSONObject(counter).getString("ansc"));
-                        rBD.setText(objQuestions.getJSONObject(counter).getString("ansd"));
+                        question.setText(objQuestions.getJSONObject(counter-1).getString("question"));
+                        rBA.setText(objQuestions.getJSONObject(counter-1).getString("ansa"));
+                        rBB.setText(objQuestions.getJSONObject(counter-1).getString("ansb"));
+                        rBC.setText(objQuestions.getJSONObject(counter-1).getString("ansc"));
+                        rBD.setText(objQuestions.getJSONObject(counter-1).getString("ansd"));
 
                         buttonNext.setVisibility(View.VISIBLE);
                         buttonPrev.setVisibility(View.VISIBLE);
-                    }
-
-                    //Zapis do tablicy
-                    //RadioButton answerUser = findViewById(groupAnswer.getCheckedRadioButtonId());
-                    //String ansText = answerUser.getText().toString();
-
-                    if(groupAnswer.getCheckedRadioButtonId()==-1) {
-                        Toast.makeText(getApplicationContext(), "Please select one choice", Toast.LENGTH_SHORT).show();
-                        return;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -125,43 +129,34 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    groupAnswer.clearCheck();
+                    if(groupAnswer.getCheckedRadioButtonId() == -1) {
+                        Toast.makeText(getApplicationContext(), "Please select one choice", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    //groupAnswer.clearCheck();
                     counter--;
-                    System.out.println("Counter3: " + counter);
-
-                    if(counter <= 0) {
-                        System.out.println("CounterZero: " + counter);
+                    if(counter == 1) {
                         number.setText(Html.fromHtml("<b>"  +counter+ " of " + numberQuestions+ "</b>"));
-                        question.setText(objQuestions.getJSONObject(counter).getString("question"));
-                        rBA.setText(objQuestions.getJSONObject(counter).getString("ansa"));
-                        rBB.setText(objQuestions.getJSONObject(counter).getString("ansb"));
-                        rBC.setText(objQuestions.getJSONObject(counter).getString("ansc"));
-                        rBD.setText(objQuestions.getJSONObject(counter).getString("ansd"));
+                        question.setText(objQuestions.getJSONObject(counter-1).getString("question"));
+                        rBA.setText(objQuestions.getJSONObject(counter-1).getString("ansa"));
+                        rBB.setText(objQuestions.getJSONObject(counter-1).getString("ansb"));
+                        rBC.setText(objQuestions.getJSONObject(counter-1).getString("ansc"));
+                        rBD.setText(objQuestions.getJSONObject(counter-1).getString("ansd"));
 
                         buttonPrev.setVisibility(View.INVISIBLE);
                         buttonNext.setVisibility(View.VISIBLE);
 
-                    } else if(counter < numberQuestions)
-                    {
+                    } else if(counter <= numberQuestions) {
                         number.setText(Html.fromHtml("<b>"  +counter+ " of " + numberQuestions+ "</b>"));
-                        question.setText(objQuestions.getJSONObject(counter).getString("question"));
-                        rBA.setText(objQuestions.getJSONObject(counter).getString("ansa"));
-                        rBB.setText(objQuestions.getJSONObject(counter).getString("ansb"));
-                        rBC.setText(objQuestions.getJSONObject(counter).getString("ansc"));
-                        rBD.setText(objQuestions.getJSONObject(counter).getString("ansd"));
+                        question.setText(objQuestions.getJSONObject(counter-1).getString("question"));
+                        rBA.setText(objQuestions.getJSONObject(counter-1).getString("ansa"));
+                        rBB.setText(objQuestions.getJSONObject(counter-1).getString("ansb"));
+                        rBC.setText(objQuestions.getJSONObject(counter-1).getString("ansc"));
+                        rBD.setText(objQuestions.getJSONObject(counter-1).getString("ansd"));
 
                         buttonSubmit.setVisibility(View.INVISIBLE);
                         buttonNext.setVisibility(View.VISIBLE);
                         buttonPrev.setVisibility(View.VISIBLE);
-                    }
-
-                    //Zapis do tablicy
-                    //RadioButton answerUser = findViewById(groupAnswer.getCheckedRadioButtonId());
-                    //String ansText = answerUser.getText().toString();
-
-                    if(groupAnswer.getCheckedRadioButtonId()==-1) {
-                        Toast.makeText(getApplicationContext(), "Please select one choice", Toast.LENGTH_SHORT).show();
-                        return;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -181,8 +176,41 @@ public class QuizActivity extends AppCompatActivity {
 
         // Handling to button Submit
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            int numberCorrectQuestion = 0;
             @Override
             public void onClick(View v) {
+                if(groupAnswer.getCheckedRadioButtonId() == -1) {
+                    Toast.makeText(getApplicationContext(), "Please select one choice", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(groupAnswer.getCheckedRadioButtonId() != -1) {
+                    RadioButton answer = findViewById(groupAnswer.getCheckedRadioButtonId());
+                    String ansText = answer.getText().toString();
+                    answersStringArray[counter-1] = ansText;
+                }
+
+                // Check the result of the quiz
+                for(int i = 0; i < numberQuestions; i++) {
+                    try {
+                        String answerFromObject = objQuestions.getJSONObject(i).getString("odp");
+                        Log.d("FetchAnswerFromObject: ", answerFromObject);
+                        String correctAnswer = objQuestions.getJSONObject(i).getString(answerFromObject);
+                        Log.d("CorrectAnswer: ", correctAnswer);
+                        if(correctAnswer.equals(answersStringArray[i])) {
+                            numberCorrectQuestion++;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                String result = String.valueOf(numberCorrectQuestion);
+                Log.d("ResultQuiz: ", String.valueOf(numberCorrectQuestion));
+
+
+                resultQuiz.putString("resultQuiz", result);
+                numberOfQuiz.putString("numberOfQuiz", String.valueOf(numberQuestions));
                 Intent intent = new Intent(getApplicationContext(),ResultActivity.class);
                 startActivity(intent);
             }
