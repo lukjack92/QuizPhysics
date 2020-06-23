@@ -40,6 +40,12 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
     RequestBody body;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
@@ -62,7 +68,7 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
         params.add("type","category");
 
         body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=utf-8"), params.toString());
-        postRequest(MainActivity.postURIStage, body);
+        postRequest(LoginActivity.postURIStage, body);
     }
 
     @Override
@@ -225,7 +231,7 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
         params.add("category", category);
 
         body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=utf-8"), params.toString());
-        postRequestCategory(MainActivity.postURIStage, body);
+        postRequestCategory(LoginActivity.postURIStage, body);
 
     }
 

@@ -9,17 +9,14 @@ import androidx.core.app.ActivityCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String postURILive = "https://mgr.ljack.com.pl/api/api.php";
-    public static final String postURIStage = "https://stage.mgr.ljack.com.pl/api/api.php";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
         //setContentView(R.layout.activity_login_ui);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 0);
+        finish();
     }
 /*
     public void sendMessage(View view) {

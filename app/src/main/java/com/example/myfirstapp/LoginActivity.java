@@ -27,11 +27,13 @@ import okhttp3.Response;
 public class LoginActivity extends AppCompatActivity {
 
     public static Bundle username = new Bundle();
+    public static final String postURILive = "https://mgr.ljack.com.pl/api/api.php";
+    public static final String postURIStage = "https://stage.mgr.ljack.com.pl/api/api.php";
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-        startActivity(intent);
+        super.onBackPressed();
+        finish();
     }
 
     @Override
@@ -76,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         params.add("password",password);
 
         RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=utf-8"), params.toString());
-        postRequest(MainActivity.postURIStage, body);
+        postRequest(LoginActivity.postURIStage, body);
     }
 
     public void postRequest(String postUrl, RequestBody postBody) {

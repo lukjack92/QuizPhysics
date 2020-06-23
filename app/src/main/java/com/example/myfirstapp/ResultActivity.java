@@ -73,7 +73,7 @@ public class ResultActivity extends AppCompatActivity {
         params.add("category", categoryQuiz);
 
         body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=utf-8"), params.toString());
-        postRequest(MainActivity.postURIStage, body);
+        postRequest(LoginActivity.postURIStage, body);
     }
 
     public void postRequest(String postUrl, RequestBody postBody) {

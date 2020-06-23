@@ -34,6 +34,14 @@ public class QuizActivity extends AppCompatActivity {
     private String answersStringArray[];
     private int answersRadioButtonArray[];
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(),DisplayMessageActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
