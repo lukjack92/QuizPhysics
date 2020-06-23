@@ -22,8 +22,8 @@
         android:id="@+id/username"
         android:layout_width="0dp"
         android:layout_height="29dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentLeft="false"
         android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
@@ -44,13 +44,14 @@
         android:layout_height="177dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="296dp"
+        android:layout_marginBottom="292dp"
         android:scrollbars="vertical"
         android:text="TextView"
         android:textSize="18sp"
         app:autoSizeTextType="none"
         app:layout_constraintBottom_toTopOf="@+id/buttonQuit"
         app:layout_constraintEnd_toEndOf="@id/number"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="@id/answerGroup" />
 
     <Button
@@ -81,7 +82,7 @@
     <TextView
         android:id="@+id/number"
         android:layout_width="0dp"
-        android:layout_height="28dp"
+        android:layout_height="29dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:text="TextView"
@@ -92,7 +93,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username"
-        app:layout_constraintVertical_bias="0.493" />
+        app:layout_constraintVertical_bias="0.457" />
 
     <RadioGroup
         android:id="@+id/answerGroup"
@@ -100,15 +101,14 @@
         android:layout_height="125dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="65dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
         android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/question"
+        app:layout_constraintBottom_toTopOf="@+id/buttonQuit"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/buttonQuit"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintTop_toBottomOf="@+id/question"
+        app:layout_constraintVertical_bias="0.374"
         tools:ignore="MissingConstraints">
 
 

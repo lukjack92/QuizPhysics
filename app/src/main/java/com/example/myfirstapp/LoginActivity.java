@@ -29,6 +29,12 @@ public class LoginActivity extends AppCompatActivity {
     public static Bundle username = new Bundle();
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_ui);
@@ -121,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("USER", email);
                                 LoginActivity.username.putString("email",email);
                                 changeActivityToSelectCategory("You have been success logged in.");
-                                finish();//finishing activity and return to the calling activity.
+                                //finish();//finishing activity and return to the calling activity.
                             } else if (jsonResponse.getString("message").trim().equals("User not found or Invalid login details.")) {
                                 responseTextLogin.setText("Login Failed. Invalid username or password.");
                                 Log.d("LOGIN", "Unsuccessful Login");

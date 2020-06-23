@@ -57,7 +57,6 @@ public class QuizActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String questions = intent.getStringExtra("QUESTIONS");
-        Log.d("QuestionFromQuizActivity: ", questions.toString());
 
         // Convert String from URL to JSONObject
         try {
@@ -113,7 +112,7 @@ public class QuizActivity extends AppCompatActivity {
                         rBC.setText(objQuestions.getJSONObject(counter-1).getString("ansc"));
                         rBD.setText(objQuestions.getJSONObject(counter-1).getString("ansd"));
 
-                        Log.d("Counter: ", String.valueOf(counter));
+                        //Log.d("Counter: ", String.valueOf(counter));
 
                         buttonSubmit.setVisibility(View.VISIBLE);
                         buttonNext.setVisibility(View.INVISIBLE);

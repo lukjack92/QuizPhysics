@@ -53,7 +53,7 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
         TextView textView = findViewById(R.id.textView);
         textView.setText(message);
 
-        categories = new ArrayList<String>();
+        categories = new ArrayList<>();
         responseServer = new JSONArray();
 
         spinner = findViewById(R.id.spinner);
@@ -77,7 +77,6 @@ public class DisplayMessageActivity extends AppCompatActivity implements Adapter
     }
 
     public void postRequest(String postUrl, RequestBody postBody) {
-        final List<String> categories1 = new ArrayList<String>();
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
