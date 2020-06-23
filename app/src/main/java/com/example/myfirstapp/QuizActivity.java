@@ -18,6 +18,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 public class QuizActivity extends AppCompatActivity {
 
     public static Bundle resultQuiz = new Bundle();
@@ -30,6 +32,7 @@ public class QuizActivity extends AppCompatActivity {
     private RadioGroup groupAnswer;
     private RadioButton rBA, rBB, rBC, rBD;
     private String answersStringArray[];
+    private int answersRadioButtonArray[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class QuizActivity extends AppCompatActivity {
             System.out.println("ArrayLength: " + objQuestions.length());
             numberQuestions = objQuestions.length();
             answersStringArray = new String[numberQuestions];
+            answersRadioButtonArray = new int[numberQuestions];
 
             System.out.println("Array0: " + objQuestions.getJSONObject(counter-1));
 
@@ -83,6 +87,8 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
+
+                    //Log.d("Checked Radio Button", String.valueOf(groupAnswer.getCheckedRadioButtonId()));
                     if(groupAnswer.getCheckedRadioButtonId() == -1) {
                         Toast.makeText(getApplicationContext(), "Please select one choice", Toast.LENGTH_SHORT).show();
                         return;
@@ -92,10 +98,13 @@ public class QuizActivity extends AppCompatActivity {
                         RadioButton answer = findViewById(groupAnswer.getCheckedRadioButtonId());
                         String ansText = answer.getText().toString();
                         answersStringArray[counter-1] = ansText;
+                        answersRadioButtonArray[counter-1] = groupAnswer.getCheckedRadioButtonId();
+                        System.out.println("answersStringArray" + Arrays.toString(answersStringArray));
+                        System.out.println("answersRadioButtonArray" + Arrays.toString(answersRadioButtonArray));
                     }
-                    //groupAnswer.clearCheck();
-
+                    groupAnswer.clearCheck();
                     counter++;
+                    findRadioButton(answersRadioButtonArray, counter-1);
                     if (counter == numberQuestions) {
                         number.setText(Html.fromHtml("<b>"  + counter + " of " + numberQuestions+ "</b>"));
                         question.setText(objQuestions.getJSONObject(counter-1).getString("question"));
@@ -103,6 +112,8 @@ public class QuizActivity extends AppCompatActivity {
                         rBB.setText(objQuestions.getJSONObject(counter-1).getString("ansb"));
                         rBC.setText(objQuestions.getJSONObject(counter-1).getString("ansc"));
                         rBD.setText(objQuestions.getJSONObject(counter-1).getString("ansd"));
+
+                        Log.d("Counter: ", String.valueOf(counter));
 
                         buttonSubmit.setVisibility(View.VISIBLE);
                         buttonNext.setVisibility(View.INVISIBLE);
@@ -133,8 +144,10 @@ public class QuizActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Please select one choice", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    //groupAnswer.clearCheck();
+                    answersRadioButtonArray[counter-1] = groupAnswer.getCheckedRadioButtonId();
+                    groupAnswer.clearCheck();
                     counter--;
+                    findRadioButton(answersRadioButtonArray, counter-1);
                     if(counter == 1) {
                         number.setText(Html.fromHtml("<b>"  +counter+ " of " + numberQuestions+ "</b>"));
                         question.setText(objQuestions.getJSONObject(counter-1).getString("question"));
@@ -163,7 +176,6 @@ public class QuizActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         // Handling to button Back
         buttonQuit.setOnClickListener(new View.OnClickListener() {
@@ -206,8 +218,7 @@ public class QuizActivity extends AppCompatActivity {
                 }
 
                 String result = String.valueOf(numberCorrectQuestion);
-                Log.d("ResultQuiz: ", String.valueOf(numberCorrectQuestion));
-
+                //Log.d("ResultQuiz: ", String.valueOf(numberCorrectQuestion));
 
                 resultQuiz.putString("resultQuiz", result);
                 numberOfQuiz.putString("numberOfQuiz", String.valueOf(numberQuestions));
@@ -215,5 +226,27 @@ public class QuizActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void findRadioButton(int arrayRadioButton[], int counter) {
+        //System.out.println("To select: " + arrayRadioButton[counter]);
+        switch(arrayRadioButton[counter]) {
+            case R.id.radioButtonA:
+                RadioButton rbA = findViewById(R.id.radioButtonA);
+                rbA.setChecked(true);
+                break;
+            case R.id.radioButtonB:
+                RadioButton rbB = findViewById(R.id.radioButtonB);
+                rbB.setChecked(true);
+                break;
+            case R.id.radioButtonC:
+                RadioButton rbC = findViewById(R.id.radioButtonC);
+                rbC.setChecked(true);
+                break;
+            case R.id.radioButtonD:
+                RadioButton rbD = findViewById(R.id.radioButtonD);
+                rbD.setChecked(true);
+                break;
+        }
     }
 }
